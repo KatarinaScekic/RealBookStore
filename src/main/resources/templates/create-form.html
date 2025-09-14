@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,27 +15,34 @@
         <form class="col-5" method="POST" th:action="@{/books}">
             <div th:hidden="true" class="form-group">
                 <label for="id">id</label>
-                <input type="text" id="id" name="id" class="form-control" th:value="0">
+                <input type="text" id="id" name="id" class="form-control" th:value="0"
+                       th:disabled="${not #authorization.expression('hasAuthority(''CREATE_BOOK'')')}">
             </div>
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" id="title" name="title" class="form-control">
+                <input type="text" id="title" name="title" class="form-control"
+                       th:disabled="${not #authorization.expression('hasAuthority(''CREATE_BOOK'')')}">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" class="form-control"></textarea>
+                <textarea id="description" name="description" class="form-control"
+                          th:disabled="${not #authorization.expression('hasAuthority(''CREATE_BOOK'')')}">
+                </textarea>
             </div>
             <div class="form-group">
                 <label for="author">Author</label>
-                <textarea id="author" name="author" class="form-control"></textarea>
+                <textarea id="author" name="author" class="form-control"
+                          th:disabled="${not #authorization.expression('hasAuthority(''CREATE_BOOK'')')}">
+                </textarea>
             </div>
             <div class="form-group">
                 <label for="genres">Genres</label>
-                <select multiple="multiple" name="genres" id="genres">
-                    <option th:each="genre: ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+                <select multiple="multiple" name="genres" id="genres"
+                        th:disabled="${not #authorization.expression('hasAuthority(''CREATE_BOOK'')')}">
+                <option th:each="genre: ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
                 </select>
             </div>
-            <div>
+            <div sec:authorize="hasAuthority('CREATE_BOOK')">
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>

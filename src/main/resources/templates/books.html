@@ -13,7 +13,8 @@
   <h1>Books</h1>
   <div class="container">
     <div class="input-group mb-3">
-      <input type="text" id="searchQuery" class="form-control">
+      <input type="text" id="searchQuery" class="form-control"
+             th:disabled="${not #authorization.expression('hasAuthority(''VIEW_BOOKS_LIST'')')}">
       <div class="input-group-append">
         <button class="btn btn-outline-primary" id="bookSearchButton" type="button" onclick="search()">Search
         </button>
@@ -42,7 +43,9 @@
       </tr>
       </tbody>
     </table>
-    <a href="/create-form">Add book</a>
+    <a href="/create-form"
+       th:disabled="${not #authorization.expression('hasAuthority(''CREATE_BOOK'')')}">
+    Add book</a>
   </div>
   <template id="row-template">
     <tr>
